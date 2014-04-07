@@ -12,6 +12,7 @@ module.exports = function (grunt) {
 
       var options = this.options({
         specFolders: [],
+        specs: [],
         projectRoot:'',
         match: '.',
         matchall: false,
@@ -41,7 +42,7 @@ module.exports = function (grunt) {
 
       if(options.coffee){
         options.extensions = 'js|coffee|litcoffee';
-        require('coffee-script');     
+        require('coffee-script');
       }
       var regExpSpec = new RegExp(options.match + (options.matchall ? "" : options.specNameMatcher + "\\.") + "(" + options.extensions + ")$", 'i');
 
@@ -66,7 +67,12 @@ module.exports = function (grunt) {
           jasmine.loadHelpersInFolder(path, new RegExp(options.helperNameMatcher + "?\\.(" + options.extensions + ")$", 'i'));
         });
       }
-
+      if (options.specs.length > 0 && options.specs[0] !== '') {
+          var splits = options.specs[0].split('/');
+          regExpSpec = new RegExp(splits.pop());
+          options.specFolders = [splits.join('/')];
+          console.log('Running single spec using regex', regExpSpec, ' and spec folder ', options.specFolders);
+      }
       var jasmineOptions = {
         specFolders: options.specFolders,
         onComplete:   onComplete,
@@ -80,6 +86,7 @@ module.exports = function (grunt) {
         coffee: options.coffee,
         growl: options.growl
       };
+
 
       try {
         // for jasmine-node@1.0.27 individual arguments need to be passed
