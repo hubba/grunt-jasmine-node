@@ -28,7 +28,7 @@
   },
   "scripts": {},
   "dependencies": {
-    "jasmine-node": "~1.7.0",
+    "jasmine-node": "https://github.com/hubba/jasmine-node/archive/master.tar.gz",
     "coffee-script": "~1.6.2"
   },
   "devDependencies": {
